@@ -3,7 +3,6 @@
 import 'dart:ui';
 
 
-import 'package:edu_vista_test/widgets/elevatedButtons.dart';
 import 'package:edu_vista_test/widgets/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -250,9 +249,41 @@ class _SignupPageState extends State<SignupPage> {
                       children: [
                         Align(
                           alignment: AlignmentDirectional(0, 0),
-                          child: ElevatedButtons(width:230 ,height: 44,backgroundColor: WidgetStateProperty.all(Color(0xFF2D62FF)) ,onPressed:() {
+                          child: Container(
+                            width: 230,
+                            height: 44,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    WidgetStateProperty.all(Color(0xFF2D62FF)),
+                              ),
+                              onPressed: () {
                                 print('Button pressed ...');
-                              }, iconName: Icons.facebook,iconcolor: Colors.white,iconsize:30,text: 'Sign in with Facebook',fontFamily:'Readex Pro',textcolor:Colors.white,fontWeight:FontWeight.bold , )
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Icon(
+                                    Icons.facebook,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Sign in with Facebook',
+                                    style: TextStyle(
+                                      fontFamily: 'Readex Pro',
+                                      color: Colors.white,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 10,
@@ -263,10 +294,22 @@ class _SignupPageState extends State<SignupPage> {
                             child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                              child:ElevatedButtons( width: 83,
-                                height: 44,onPressed: () {
+                              child: Container(
+                                width: 83,
+                                height: 44,
+                                // // child:
+                                // Image.asset('assets/images/buttons.PNG'),
+                                child: ElevatedButton(
+                                  onPressed: () {
                                     print('Button pressed ...');
-                                  },iconName: FontAwesomeIcons.google ,iconsize: 25,iconcolor:Colors.black ,)
+                                  },
+                                  child: FaIcon(
+                                    FontAwesomeIcons.google,
+                                    size: 25,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
                             )),
                       ],
                     ),

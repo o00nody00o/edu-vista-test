@@ -2,7 +2,6 @@
 
 import 'dart:math';
 import 'package:edu_vista_test/pages/signUpPage.dart';
-import 'package:edu_vista_test/widgets/elevatedButtons.dart';
 import 'package:edu_vista_test/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -18,6 +17,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,6 +26,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          // key: scaffoldKey,
+          // backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           body: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -92,14 +95,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 200),
-                  child: Text('Login',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Readex Pro',
-                        fontSize: 25,
-                        letterSpacing: 0,
-                        fontWeight: FontWeight.w600,
-                      )),
+                  child: Text(
+                    'Login',
+                    textAlign: TextAlign.center,
+                    style: TextStyle( fontFamily: 'Readex Pro',
+                          fontSize: 25,
+                          letterSpacing: 0,
+                          fontWeight: FontWeight.w600,)
+                  ),
                 ),
               ),
               Align(
@@ -159,16 +162,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                              child: ElevatedButtons(
+                              child: Container(
                                 width: 327,
                                 height: 52,
-                                backgroundColor:
-                                    WidgetStateProperty.all(Color(0xFFEFC539)),
-                                onPressed: () {
-                                  print('Button pressed ...');
-                                },
-                                text: '                      Sign Up',
-                                textcolor: Colors.white,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStateProperty.all(
+                                          Color(0xFFEFC539)),
+                                    ),
+                                    onPressed: () {
+                                      print('Button pressed ...');
+                                    },
+                                    child: Text(
+                                      'Sign Up',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
                               )),
                         ),
                         Column(
@@ -199,25 +207,44 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     Align(
                                       alignment: AlignmentDirectional(0, 0),
                                       child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 10, 16),
-                                          child: ElevatedButtons(
-                                              width: 230,
-                                              height: 44,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 10, 16),
+                                        child: Container( width: 230,
+                            height: 44,
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
                                               backgroundColor:
                                                   WidgetStateProperty.all(
                                                       Color(0xFF2D62FF)),
-                                              onPressed: () {
-                                                print('Button pressed ...');
-                                              },
-                                              iconName: Icons.facebook,
-                                              iconsize: 30,
-                                              iconcolor: Colors.white,
-                                              text: 'Sign in with Facebook',
-                                              textcolor: Colors.white,
-                                              fontFamily: 'Readex Pro',
-                                              fontWeight: FontWeight.bold)),
+                                            ),
+                                            onPressed: () {
+                                              print('Button pressed ...');
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Icon(
+                                                  Icons.facebook,
+                                                  color: Colors.white,
+                                                  size: 30,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  'Sign in with Facebook',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Colors.white,
+                                                    letterSpacing: 0,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     Align(
                                       alignment: AlignmentDirectional(1, 0),
@@ -273,24 +300,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       alignment: AlignmentDirectional(1, 0),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 10),
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async => await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignupPage()),
+                        child:  InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async => await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>  SignupPage()),
+                            ),
+                            child: Text('Login Here',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontFamily: 'Readex Pro',
+                                  color: Color(0xFFEFC539),
+                                  letterSpacing: 0,
+                                )),
                           ),
-                          child: Text('Sign Up Here',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontFamily: 'Readex Pro',
-                                color: Color(0xFFEFC539),
-                                letterSpacing: 0,
-                              )),
-                        ),
                       ),
                     ),
                   ],
