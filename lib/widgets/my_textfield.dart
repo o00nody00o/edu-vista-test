@@ -5,15 +5,18 @@ import 'package:flutter/material.dart';
 class TextFieldsWidget extends StatelessWidget {
   String labelText;
   var keyboardType;
+  TextEditingController? controller;
   TextFieldsWidget({
     super.key,
     required this.keyboardType,
     required this.labelText,
+    required this. controller
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller:controller,
       autofillHints: [AutofillHints.email],
       obscureText: false,
       decoration: InputDecoration(

@@ -1,6 +1,7 @@
-// ignore_for_file: deprecated_member_use, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import, sized_box_for_whitespace, depend_on_referenced_packages, file_names
 
 import 'dart:math';
+import 'package:edu_vista_test/pages/forgotPasswordPage.dart';
 import 'package:edu_vista_test/pages/signUpPage.dart';
 import 'package:edu_vista_test/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,79 +42,80 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Align(
-                alignment: AlignmentDirectional(0, -1),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Align(
-                          alignment: AlignmentDirectional(-1, 0),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Text('9:41',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Readex Pro',
-                                  letterSpacing: 0,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
-                          child: FaIcon(
-                            FontAwesomeIcons.signal,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
-                          child: Icon(
-                            Icons.wifi_sharp,
-                            color: Colors.black,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
-                        child: FaIcon(
-                          FontAwesomeIcons.batteryFull,
-                          color: Color(0xFFEFC539),
-                          size: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Padding(
+              //++++++++++++++++++++++++++++++++++++++ app bar +++++++++++++++++++++++++++++++++++++++
+              // Align(
+              //   alignment: AlignmentDirectional(0, -1),
+              //   child: Padding(
+              //     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.max,
+              //       mainAxisAlignment: MainAxisAlignment.end,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Flexible(
+              //           child: Align(
+              //             alignment: AlignmentDirectional(-1, 0),
+              //             child: Padding(
+              //               padding:
+              //                   EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+              //               child: Text('9:41',
+              //                   textAlign: TextAlign.center,
+              //                   style: TextStyle(
+              //                     fontFamily: 'Readex Pro',
+              //                     letterSpacing: 0,
+              //                     fontWeight: FontWeight.w600,
+              //                   )),
+              //             ),
+              //           ),
+              //         ),
+              //         Align(
+              //           alignment: AlignmentDirectional(0, 0),
+              //           child: Padding(
+              //             padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
+              //             child: FaIcon(
+              //               FontAwesomeIcons.signal,
+              //               color: Colors.black,
+              //               size: 20,
+              //             ),
+              //           ),
+              //         ),
+              //         Align(
+              //           alignment: AlignmentDirectional(0, 0),
+              //           child: Padding(
+              //             padding: EdgeInsetsDirectional.fromSTEB(0, 0, 5, 0),
+              //             child: Icon(
+              //               Icons.wifi_sharp,
+              //               color: Colors.black,
+              //               size: 24,
+              //             ),
+              //           ),
+              //         ),
+              //         Padding(
+              //           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+              //           child: FaIcon(
+              //             FontAwesomeIcons.batteryFull,
+              //             color: Color(0xFFEFC539),
+              //             size: 24,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              //------------------------------- login title text ------------------------------------
+            
+              Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 200),
-                  child: Text(
-                    'Login',
-                    textAlign: TextAlign.center,
-                    style: TextStyle( fontFamily: 'Readex Pro',
-                          fontSize: 25,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600,)
-                  ),
+                  child: Text('Login',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Readex Pro',
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                      )),
                 ),
-              ),
+             
+              //++++++++++++++++++++++++++++++++++++++++ textfields - email +++++++++++++++++++++++++++++++++++++++++
               Align(
                 alignment: AlignmentDirectional(0, 0),
                 child: Padding(
@@ -121,10 +132,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             child: Container(
                                 width: 330,
                                 child: TextFieldsWidget(
+                                    controller: email,
                                     keyboardType: TextInputType.emailAddress,
                                     labelText: 'email')),
                           ),
                         ),
+                        //+++++++++++++++++++++++++++++++++++ password textfield ++++++++++++++++++++++++++++++++++++++++++++++++++
                         Align(
                           alignment: AlignmentDirectional(0, 0),
                           child: Padding(
@@ -132,31 +145,33 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             child: Container(
                                 width: 330,
                                 child: TextFieldsWidget(
+                                    controller: password,
                                     keyboardType: TextInputType.visiblePassword,
                                     labelText: 'password')),
                           ),
                         ),
+                        //++++++++++++++++++++++++++++++++++++++++  forgot password text button +++++++++++++++++++++++++++++++++
                         Align(
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 0, 10, 50),
                               child: InkWell(
-                                // onTap: () => Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           const ForgotPasswordPage()),
-                                // ),
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Forgotpasswordpage()),
+                                ),
                                 child: Text('Forgot password?',
                                     textAlign: TextAlign.end,
                                     style: TextStyle(
                                       fontFamily: 'Readex Pro',
                                       color: Color(0xFFEFC539),
-                                      letterSpacing: 0,
                                     )),
                               )),
                         ),
+                        //+++++++++++++++++++++++++++++++ login elevated button +++++++++++++++++++++++++++++++++++++++++
                         Align(
                           alignment: AlignmentDirectional(0, 0),
                           child: Padding(
@@ -179,6 +194,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     )),
                               )),
                         ),
+                        //++++++++++++++++++++++++++++++++++  or login with text +++++++++++++++++++++++++++
                         Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -191,10 +207,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontFamily: 'Readex Pro',
-                                      letterSpacing: 0,
                                     )),
                               ),
                             ),
+                            //+++++++++++++++++++++++++++++ facebook button +++++++++++++++++++++++++++++++
                             Align(
                               alignment: AlignmentDirectional(0, 0),
                               child: Padding(
@@ -209,8 +225,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0, 0, 10, 16),
-                                        child: Container( width: 230,
-                            height: 44,
+                                        child: Container(
+                                          width: 230,
+                                          height: 44,
                                           child: ElevatedButton(
                                             style: ButtonStyle(
                                               backgroundColor:
@@ -218,7 +235,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                                       Color(0xFF2D62FF)),
                                             ),
                                             onPressed: () {
-                                              print('Button pressed ...');
+                                              null;
                                             },
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
@@ -246,6 +263,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                         ),
                                       ),
                                     ),
+                                    //+++++++++++++++++++++++++++++++++  google button +++++++++++++++++++++++++++++++
                                     Align(
                                       alignment: AlignmentDirectional(1, 0),
                                       child: Padding(
@@ -278,46 +296,44 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ],
                     )),
               ),
+              //++++++++++++++++++++++++++++++++++++++ (don't have an account ) text ++++++++++++++++++++++++
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(50, 0, 0, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(65, 0, 0, 0),
                 child: Row(
-                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 10, 0, 20),
-                        child: Text('Don\'t have an account?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Readex Pro',
-                              letterSpacing: 0,
-                            )),
-                      ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 10, 0, 20),
+                      child: Text('Don\'t have an account?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Readex Pro',
+                            letterSpacing: 0,
+                          )),
                     ),
-                    //---------------login here clickable text ------------------------
+
+                    //++++++++++++++++++++++++++++++++++ login here clickable text +++++++++++++++++++++++++++++++++++
                     Align(
                       alignment: AlignmentDirectional(1, 0),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 10),
-                        child:  InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async => await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>  SignupPage()),
-                            ),
-                            child: Text('Login Here',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontFamily: 'Readex Pro',
-                                  color: Color(0xFFEFC539),
-                                  letterSpacing: 0,
-                                )),
+                        padding: EdgeInsetsDirectional.fromSTEB(5, 0, 12, 10),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async => await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupPage()),
                           ),
+                          child: Text('Sign Up Here',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontFamily: 'Readex Pro',
+                                color: Color(0xFFEFC539),
+                                letterSpacing: 0,
+                              )),
+                        ),
                       ),
                     ),
                   ],

@@ -1,8 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unnecessary_import, must_be_immutable, unused_import, prefer_const_constructors_in_immutables, unused_field, avoid_unnecessary_containers, avoid_print, file_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, unnecessary_import, must_be_immutable, unused_import, prefer_const_constructors_in_immutables, unused_field, avoid_unnecessary_containers, avoid_print, file_names, unnecessary_string_escapes
 
 import 'dart:ui';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edu_vista_test/pages/categoriesPage.dart';
+import 'package:edu_vista_test/pages/forgotPasswordPage.dart';
+import 'package:edu_vista_test/pages/loginPage.dart';
 import 'package:edu_vista_test/widgets/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +13,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignupPage extends StatefulWidget {
-   static const String id = 'SignUpPAge';
+  static const String id = 'SignUpPAge';
   SignupPage({
     super.key,
   });
@@ -24,6 +27,90 @@ class _SignupPageState extends State<SignupPage> {
   final _confirmpasswordController = TextEditingController();
   final _passwordController = TextEditingController();
   final _fullnameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _confirmpasswordController.dispose();
+    _passwordController.dispose();
+    _fullnameController.dispose();
+    super.dispose();
+  }
+
+//+++++++++++++++++++++++++++++++++++++++++++++++  logic ++++++++++++++++++++++++++++++++++++++++++
+  //is the password correct ?
+  bool passwordIsRight() {
+    if (_passwordController.text.trim() ==
+        _confirmpasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//create user data and adding to firestore
+  Future signUp() async {
+   
+      if (passwordIsRight()) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
+      }
+      //calling function of adding data to the firestore
+      addUserData(
+          _fullnameController.text.trim(),
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+          _confirmpasswordController.text.trim());
+          
+ return  ScaffoldMessenger.of(context).showSnackBar(
+   SnackBar(
+          content: Text(
+            'Signed up successfully \^ _ ^/',
+            style: TextStyle(
+                color: const Color.fromARGB(255, 37, 153, 2),
+                fontSize: 15,
+                fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.white,
+        ),
+ );
+  
+  }
+
+  //now add the user's data
+  Future addUserData(String fullname, String email, String password,
+      String confirmpassword) async {
+    try {
+      await FirebaseFirestore.instance.collection('data').add({
+        "full name": fullname,
+        "email": email,
+        "password": password,
+        ' confirm password ': confirmpassword,
+      });
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CategoriesPage()),
+      );
+      
+      print("success: data added to firestore");
+       
+    } catch (e) {
+      print("Failed adding data to firestore >>>>> $e");
+        return SnackBar(
+        content: Text(
+          'sign up failed : $e',
+          style: TextStyle(
+              color: const Color.fromARGB(255, 153, 2, 2),
+              fontSize: 15,
+              fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+      );
+    }
+  }
+
   // final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // void _login() async {
@@ -42,77 +129,81 @@ class _SignupPageState extends State<SignupPage> {
   //     );
   //   }
   // }
-
+//+++++++++++++++++++++++++++++++++++++ coding UI +++++++++++++++++++++++++++++++++++++
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
       child: Stack(children: [
-        Align(
-            alignment: AlignmentDirectional(0, -1),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Align(
-                      alignment: AlignmentDirectional(-1, -1),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-                        child: Text('9:41',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Readex Pro',
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.w600,
-                            )),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(1, -1),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 5, 0),
-                      child: FaIcon(
-                        FontAwesomeIcons.signal,
-                        color: Colors.black,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(1, -1),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 5, 0),
-                      child: Icon(
-                        Icons.wifi_sharp,
-                        color: Colors.black,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                  Align(
-                      alignment: AlignmentDirectional(1, -1),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
-                        child: FaIcon(
-                          FontAwesomeIcons.batteryFull,
-                          color: Color(0xFFEFC539),
-                          size: 24,
-                        ),
-                      ))
-                ],
-              ),
-            )),
+        //++++++++++++++++++++++++++++++++++  app bar +++++++++++++++++++++
+        // Align(
+        //     alignment: AlignmentDirectional(0, -1),
+        //     child: Padding(
+        //       padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+        //       child: Row(
+        //         mainAxisSize: MainAxisSize.min,
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           Flexible(
+        //             // the clock icon
+        //             child: Align(
+        //               alignment: AlignmentDirectional(-1, -1),
+        //               child: Padding(
+        //                 padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+        //                 child: Text('9:41',
+        //                     textAlign: TextAlign.center,
+        //                     style: TextStyle(
+        //                       fontFamily: 'Readex Pro',
+        //                       letterSpacing: 0,
+        //                       fontWeight: FontWeight.w600,
+        //                     )),
+        //               ),
+        //             ),
+        //           ),
+        //           //signal icon
+        //           Align(
+        //             alignment: AlignmentDirectional(1, -1),
+        //             child: Padding(
+        //               padding: EdgeInsetsDirectional.fromSTEB(0, 10, 5, 0),
+        //               child: FaIcon(
+        //                 FontAwesomeIcons.signal,
+        //                 color: Colors.black,
+        //                 size: 20,
+        //               ),
+        //             ),
+        //           ),
+        //           Align(
+        //             alignment: AlignmentDirectional(1, -1),
+        //             child: Padding(
+        //               padding: EdgeInsetsDirectional.fromSTEB(0, 10, 5, 0),
+        //               child: Icon(
+        //                 Icons.wifi_sharp,
+        //                 color: Colors.black,
+        //                 size: 24,
+        //               ),
+        //             ),
+        //           ),
+        //           Align(
+        //               alignment: AlignmentDirectional(1, -1),
+        //               child: Padding(
+        //                 padding: EdgeInsetsDirectional.fromSTEB(0, 10, 10, 0),
+        //                 child: FaIcon(
+        //                   FontAwesomeIcons.batteryFull,
+        //                   color: Color(0xFFEFC539),
+        //                   size: 24,
+        //                 ),
+        //               ))
+        //         ],
+        //       ),
+        //     )),
         Align(
           alignment: AlignmentDirectional(0, -0.88),
           child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // +++++++++++++++++++++++++++++++ sign up title ++++++++++++++++++++++++++++++++++
                 Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Padding(
@@ -126,7 +217,7 @@ class _SignupPageState extends State<SignupPage> {
                             fontWeight: FontWeight.w600,
                           )),
                     )),
-                //--------------------------------------------------------------------------------------
+                //--------------------------------------textfield  fullname------------------------------------------------
                 Align(
                     alignment: AlignmentDirectional(0, 0),
                     child: Padding(
@@ -135,10 +226,10 @@ class _SignupPageState extends State<SignupPage> {
                             width: 330,
                             child: Column(children: [
                               TextFieldsWidget(
-                                  // controller: _fullnameController,
+                                  controller: _fullnameController,
                                   keyboardType: TextInputType.name,
                                   labelText: 'Full Name ...'),
-                              //----------------------------------------------------------------------------------------
+                              //---------------------------------------textfield  email-------------------------------------------------
                               Align(
                                   alignment: AlignmentDirectional(0, 0),
                                   child: Padding(
@@ -146,12 +237,12 @@ class _SignupPageState extends State<SignupPage> {
                                         8, 30, 8, 0),
                                     child: Container(
                                         child: TextFieldsWidget(
-                                      // controller: _emailController,
+                                      controller: _emailController,
                                       keyboardType: TextInputType.emailAddress,
                                       labelText: 'Email ...',
                                     )),
                                   )),
-                              //---------------------------------------------------------------------------------------
+                              //-------------------------------textfield  password --------------------------------------------------------
                               Align(
                                 alignment: AlignmentDirectional(0, 0),
                                 child: Padding(
@@ -160,14 +251,14 @@ class _SignupPageState extends State<SignupPage> {
                                   child: Container(
                                     width: 330,
                                     child: TextFieldsWidget(
-                                        // controller: _passwordController,
+                                        controller: _passwordController,
                                         keyboardType:
                                             TextInputType.visiblePassword,
                                         labelText: 'Password'),
                                   ),
                                 ),
                               ),
-                              //-------------------------------------------------------------------------------------
+                              //+++++++++++++++++  textfield  confirm password +++++++++++++++++++++++
                               Align(
                                   alignment: AlignmentDirectional(0, 0),
                                   child: Padding(
@@ -176,11 +267,13 @@ class _SignupPageState extends State<SignupPage> {
                                       child: Container(
                                           width: 330,
                                           child: TextFieldsWidget(
+                                            controller:
+                                                _confirmpasswordController,
                                             keyboardType:
                                                 TextInputType.visiblePassword,
                                             labelText: 'Confirm Password',
                                           )))),
-                              //----------------------------forgot password textbutton----------------------------------------------------------
+                              //++++++++++++++++++++++++++++++  forgot password textbutton ++++++++++++++++++++++++++++++++++++++
 
                               Align(
                                   alignment: AlignmentDirectional(1, 0),
@@ -188,12 +281,12 @@ class _SignupPageState extends State<SignupPage> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 15, 30, 0),
                                       child: InkWell(
-                                        // onTap: () => Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           const ForgotPasswordPage()),
-                                        // ),
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Forgotpasswordpage()),
+                                        ),
                                         child: Text('Forgot password?',
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -217,7 +310,7 @@ class _SignupPageState extends State<SignupPage> {
                                     WidgetStateProperty.all(Color(0xFFEFC539)),
                               ),
                               onPressed: () {
-                                print('Button pressed ...');
+                                signUp();
                               },
                               child: Text(
                                 'Sign Up',
@@ -225,7 +318,7 @@ class _SignupPageState extends State<SignupPage> {
                               )),
                         ))),
 
-                //---------------------------------or sign up with text---------------------------------------------------------------------------
+                //---------------------------------( or sign up with )text---------------------------------------------------------------------------
                 Align(
                   alignment: AlignmentDirectional(0, 0),
                   child: Padding(
@@ -301,7 +394,7 @@ class _SignupPageState extends State<SignupPage> {
                                 // Image.asset('assets/images/buttons.PNG'),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    print('Button pressed ...');
+                                    null;
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.google,
@@ -336,11 +429,11 @@ class _SignupPageState extends State<SignupPage> {
                             focusColor: Colors.transparent,
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
-                            // onTap: () async => await Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => const LoginPage()),
-                            // ),
+                            onTap: () async => await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            ),
                             child: Text('Login Here',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
