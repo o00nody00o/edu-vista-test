@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 
 class CategoriesPage extends StatefulWidget {
+   static const String id = 'home';
   const CategoriesPage({super.key});
 
   @override
@@ -49,26 +50,26 @@ class _CategoriesPageState extends State<CategoriesPage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             // _tabs[_currentIndex],
-            BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (int index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                items: [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'search'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.my_library_books_outlined),
-                      label: 'search'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.search), label: 'search'),
-                  BottomNavigationBarItem(
-                    label: 'search',
-                    icon: Icon(Icons.chat),
-                  ),
-                ]),
+            // BottomNavigationBar(
+            //     currentIndex: _currentIndex,
+            //     onTap: (int index) {
+            //       setState(() {
+            //         _currentIndex = index;
+            //       });
+            //     },
+            //     items: [
+            //       BottomNavigationBarItem(
+            //           icon: Icon(Icons.home), label: 'search'),
+            //       BottomNavigationBarItem(
+            //           icon: Icon(Icons.my_library_books_outlined),
+            //           label: 'search'),
+            //       BottomNavigationBarItem(
+            //           icon: Icon(Icons.search), label: 'search'),
+            //       BottomNavigationBarItem(
+            //         label: 'search',
+            //         icon: Icon(Icons.chat),
+            //       ),
+            //     ]),
             SizedBox(
               height: 30,
             ),
