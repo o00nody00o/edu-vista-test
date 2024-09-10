@@ -1,6 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:bloc/bloc.dart';
-import 'package:edu_vista_test/cubid/eng_auth_state.dart';
+import 'package:edu_vista_test/engcubid/eng_auth_state.dart';
 import 'package:edu_vista_test/pages/categoriesPage.dart';
+import 'package:edu_vista_test/pages/engcourse_details_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         );
 
-        Navigator.pushReplacementNamed(context, CategoriesPage.id);
+        Navigator.pushReplacementNamed(context, CourseDetailsPage.id);
       }
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
@@ -91,7 +94,7 @@ class AuthCubit extends Cubit<AuthState> {
             content: Text('Account created successfully'),
           ),
         );
-        Navigator.pushReplacementNamed(context, CategoriesPage.id);
+        Navigator.pushReplacementNamed(context, CourseDetailsPage.id);
       }
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;

@@ -1,5 +1,5 @@
 
-import 'package:edu_vista_test/cubid/eng_auth_cubit.dart';
+import 'package:edu_vista_test/engcubid/eng_auth_cubit.dart';
 import 'package:edu_vista_test/widgets/eng_auth_template.widget.dart';
 import 'package:edu_vista_test/widgets/eng_text_form_field.dart';
 import 'package:flutter/material.dart';
