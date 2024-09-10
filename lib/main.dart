@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, deprecated_member_use
 
 import 'package:device_preview/device_preview.dart';
+import 'package:edu_vista_test/pages/engreset_password_page.dart';
 import 'package:edu_vista_test/pages/forgotPasswordPage.dart';
+import 'package:edu_vista_test/pages/resetpassword.dart';
+import 'package:edu_vista_test/pages/signUpPage.dart';
+import 'package:edu_vista_test/pages/test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context), // Add the locale
       builder: DevicePreview.appBuilder, // Wraps the app with Device Preview
       debugShowCheckedModeBanner: false,
-      home: ResetPasswordPage(),
+      home: SignupPage(),
     );
   }
 }
