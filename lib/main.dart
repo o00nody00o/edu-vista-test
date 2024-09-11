@@ -1,35 +1,133 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, deprecated_member_use
 
+import 'dart:ui';
+
 import 'package:device_preview/device_preview.dart';
+import 'package:edu_vista_test/engblocs/course/course_bloc.dart';
+import 'package:edu_vista_test/engblocs/lecture/lecture_bloc.dart';
+import 'package:edu_vista_test/engcubid/eng_auth_cubit.dart';
+import 'package:edu_vista_test/engutils/color_utilis.dart';
+import 'package:edu_vista_test/firebase_options.dart';
+import 'package:edu_vista_test/pages/eng_login_page.dart';
+import 'package:edu_vista_test/pages/eng_signup.dart';
+import 'package:edu_vista_test/pages/engcourse_details_page.dart';
+import 'package:edu_vista_test/pages/enghome_page.dart';
+import 'package:edu_vista_test/pages/engonboarding_page.dart';
 import 'package:edu_vista_test/pages/engreset_password_page.dart';
+import 'package:edu_vista_test/pages/engsplash_page.dart';
 import 'package:edu_vista_test/pages/forgotPasswordPage.dart';
 import 'package:edu_vista_test/pages/resetpassword.dart';
 import 'package:edu_vista_test/pages/signUpPage.dart';
 import 'package:edu_vista_test/pages/test.dart';
+import 'package:edu_vista_test/services/pref.service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode, // Enable only in debug mode
-      builder: (context) => MyApp(), // Wrap your app
-    ),
-  );
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PreferencesService.init();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    print('Failed to initialize Firebase: $e');
+  }
+  // await dotenv.load(fileName: ".env");
+
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (ctx) => AuthCubit()),
+      BlocProvider(create: (ctx) => CourseBloc()),
+      BlocProvider(create: (ctx) => LectureBloc()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      useInheritedMediaQuery: true, // Required for Device Preview
-      locale: DevicePreview.locale(context), // Add the locale
-      builder: DevicePreview.appBuilder, // Wraps the app with Device Preview
+      scrollBehavior: _CustomScrollBehaviour(),
       debugShowCheckedModeBanner: false,
-      home: SignupPage(),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        scaffoldBackgroundColor: ColorUtility.gbScaffold,
+        fontFamily: ' PlusJakartaSans',
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorUtility.main),
+        useMaterial3: true,
+      ),
+      onGenerateRoute: (settings) {
+        final String routeName = settings.name ?? '';
+        final dynamic data = settings.arguments;
+        switch (routeName) {
+          case LoginPage.id:
+            return MaterialPageRoute(builder: (context) => LoginPage());
+          case SignUpPage.id:
+            return MaterialPageRoute(builder: (context) => SignUpPage());
+          case ResetPasswordPage.id:
+            return MaterialPageRoute(builder: (context) => ResetPasswordPage());
+          case OnBoardingPage.id:
+            return MaterialPageRoute(builder: (context) => OnBoardingPage());
+          case HomePage.id:
+            return MaterialPageRoute(builder: (context) => HomePage());
+          case CourseDetailsPage.id:
+            return MaterialPageRoute(
+                builder: (context) => CourseDetailsPage(
+                      course: data,
+                    ));
+
+          default:
+            return MaterialPageRoute(builder: (context) => SplashPage());
+        }
+      },
+      initialRoute: SplashPage.id,
     );
   }
 }
+
+class _CustomScrollBehaviour extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.touch,
+      };
+}
+
+
+
+
+
+
+// void main() {
+//   runApp(
+//     DevicePreview(
+//       enabled: !kReleaseMode, // Enable only in debug mode
+//       builder: (context) => MyApp(), // Wrap your app
+//     ),
+//   );
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       useInheritedMediaQuery: true, // Required for Device Preview
+//       locale: DevicePreview.locale(context), // Add the locale
+//       builder: DevicePreview.appBuilder, // Wraps the app with Device Preview
+//       debugShowCheckedModeBanner: false,
+//       home: SignupPage(),
+//     );
+//   }
+// }
 
 // class ResetPasswordScreen extends StatelessWidget {
 //   @override
